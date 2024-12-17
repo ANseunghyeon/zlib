@@ -1275,28 +1275,25 @@ int ZEXPORT inflateEnd(z_streamp strm) {
     return Z_OK;
 }
 
-int ZEXPORT inflateGetDictionary(z_streamp strm, Bytef *dictionary,
+int ZEXPORT inflateGetDictionary(z_streamp strm, Bytef *dictionary, 
                                  uInt *dictLength) {
     struct inflate_state FAR *state;
 
     /* check state */
     if (inflateStateCheck(strm)) return Z_STREAM_ERROR;
     state = (struct inflate_state FAR *)strm->state;
-    /* check size */
-    if (state->whave > *dictLength) {
-        return Z_MEM_ERROR; 
-    }
+
     /* copy dictionary */
     if (state->whave && dictionary != Z_NULL) {
-        zmemcpy(dictionary, state->window + state->wnext,
-                state->whave - state->wnext);
-        zmemcpy(dictionary + state->whave - state->wnext,
-                state->window, state->wnext);
-    }
-    if (dictLength != Z_NULL)
+        size_t copy_len = min((size_t)(state->whave - state->wnext), (*dictLength));
+        memcpy(dictionary, state->window + state->wnext, copy_len);
+        memcpy(dictionary + copy_len, state->window, state->wnext);
         *dictLength = state->whave;
+    }
+
     return Z_OK;
 }
+
 
 int ZEXPORT inflateSetDictionary(z_streamp strm, const Bytef *dictionary,
                                  uInt dictLength) {
