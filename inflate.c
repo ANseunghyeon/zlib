@@ -1288,7 +1288,7 @@ int ZEXPORT inflateGetDictionary(z_streamp strm, Bytef *dictionary,
 
     /* copy dictionary */
     if (state->whave && dictionary != Z_NULL) {
-        unsigned copy_len = min( 6(size_t)(state->whave - state->wnext), (*dictLength));
+        unsigned copy_len = min((size_t)(state->whave - state->wnext), (*dictLength));
         memcpy(dictionary, state->window + state->wnext, copy_len);
         memcpy(dictionary + copy_len, state->window, state->wnext);
         *dictLength = state->whave;
