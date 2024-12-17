@@ -1283,7 +1283,7 @@ int ZEXPORT inflateGetDictionary(z_streamp strm, Bytef *dictionary,
     if (inflateStateCheck(strm)) return Z_STREAM_ERROR;
     state = (struct inflate_state FAR *)strm->state;
     /* check size */
-    if (state->whave > dictLengthCheck()) {
+    if (state->whave > *dictLength) {
         return Z_MEM_ERROR; 
     }
     /* copy dictionary */
