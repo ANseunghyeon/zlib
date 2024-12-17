@@ -1274,7 +1274,7 @@ int ZEXPORT inflateEnd(z_streamp strm) {
     Tracev((stderr, "inflate: end\n"));
     return Z_OK;
 }
-size_t min (size_t a, size_t b){
+size_t min(size_t a, size_t b){
     if(a<b)
         return a;
     else 
