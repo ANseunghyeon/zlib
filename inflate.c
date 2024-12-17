@@ -1274,11 +1274,8 @@ int ZEXPORT inflateEnd(z_streamp strm) {
     Tracev((stderr, "inflate: end\n"));
     return Z_OK;
 }
-size_t min(size_t a, size_t b){
-    if(a<b)
-        return a;
-    else 
-        return b;
+static inline size_t min(size_t a, size_t b) {
+    return (a < b) ? a : b;
 }
 int ZEXPORT inflateGetDictionary(z_streamp strm, Bytef *dictionary, 
                                  uInt *dictLength) {
