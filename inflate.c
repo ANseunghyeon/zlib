@@ -1274,9 +1274,6 @@ int ZEXPORT inflateEnd(z_streamp strm) {
     Tracev((stderr, "inflate: end\n"));
     return Z_OK;
 }
-unsigned min(size_t a, size_t b) {
-    return (a < b) ? a : b;
-}
 
 int ZEXPORT inflateGetDictionary(z_streamp strm, Bytef *dictionary, 
                                  uInt *dictLength) {
@@ -1286,9 +1283,10 @@ int ZEXPORT inflateGetDictionary(z_streamp strm, Bytef *dictionary,
     if (inflateStateCheck(strm)) return Z_STREAM_ERROR;
     state = (struct inflate_state FAR *)strm->state;
 
+    unsigned min = (size_t)(state->whave - state->wnext) > (*dictLength) ? (size_t)(state->whave - state->wnext) : (*dictLength);
     /* copy dictionary */
     if (state->whave && dictionary != Z_NULL) {
-        unsigned copy_len = min((size_t)(state->whave - state->wnext), (*dictLength));
+        unsigned copy_len = min;
         memcpy(dictionary, state->window + state->wnext, copy_len);
         memcpy(dictionary + copy_len, state->window, state->wnext);
         *dictLength = state->whave;
