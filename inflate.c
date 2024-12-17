@@ -90,9 +90,6 @@
 #    define BUILDFIXED
 #  endif
 #endif
-static inline size_t min(size_t a, size_t b) {
-    return (a < b) ? a : b;
-}
 
 local int inflateStateCheck(z_streamp strm) {
     struct inflate_state FAR *state;
@@ -1277,6 +1274,9 @@ int ZEXPORT inflateEnd(z_streamp strm) {
     Tracev((stderr, "inflate: end\n"));
     return Z_OK;
 }
+unsigned min(size_t a, size_t b) {
+    return (a < b) ? a : b;
+}
 
 int ZEXPORT inflateGetDictionary(z_streamp strm, Bytef *dictionary, 
                                  uInt *dictLength) {
@@ -1288,7 +1288,7 @@ int ZEXPORT inflateGetDictionary(z_streamp strm, Bytef *dictionary,
 
     /* copy dictionary */
     if (state->whave && dictionary != Z_NULL) {
-        size_t copy_len = min((size_t)(state->whave - state->wnext), (*dictLength));
+        unsigned copy_len = min( 6(size_t)(state->whave - state->wnext), (*dictLength));
         memcpy(dictionary, state->window + state->wnext, copy_len);
         memcpy(dictionary + copy_len, state->window, state->wnext);
         *dictLength = state->whave;
