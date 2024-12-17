@@ -7,7 +7,7 @@
  * Change history:
  *
  * 1.2.beta0    24 Nov 2002
- * - First version -- complete rewrite of inflate to simplify code, avoid
+ * - First version -- complete rewrite of inflate to simplify code, avoida
  *   creation of window when not needed, minimize use of window when it is
  *   needed, make inffast.c even faster, implement gzip decoding, and to
  *   improve code readability and style over the previous zlib inflate code
@@ -1276,7 +1276,7 @@ int ZEXPORT inflateEnd(z_streamp strm) {
 }
 size_t min(size_t a, size_t b)
 {
-    return a > b ? a : b
+    return a > b ? a : b;
 }
 int ZEXPORT inflateGetDictionary(z_streamp strm, Bytef *dictionary, 
                                  uInt *dictLength) {
