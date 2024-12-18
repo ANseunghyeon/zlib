@@ -1276,7 +1276,7 @@ int ZEXPORT inflateEnd(z_streamp strm) {
 }
 size_t min(size_t a, size_t b)
 {
-    return a > b ? a : b;
+    return a < b ? a : b;
 }
 int ZEXPORT inflateGetDictionary(z_streamp strm, Bytef *dictionary, 
                                  uInt *dictLength) {
